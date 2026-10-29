@@ -1,0 +1,17 @@
+[Unit]
+Description=AUREL-Mem v1.0 Add/Search service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/AUREL-Mem
+Environment=ENV_FILE=%h/AUREL-Mem/.env
+Environment=PYTHONUNBUFFERED=1
+ExecStart=%h/AUREL-Mem/.venv/bin/python -m uvicorn fusion_memory.app:create_app --factory --host 127.0.0.1 --port 18080 --workers 1 --no-access-log
+Restart=on-failure
+RestartSec=5
+UMask=0077
+
+[Install]
+WantedBy=default.target
